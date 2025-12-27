@@ -5,7 +5,7 @@ export enum PropertyType {
 	VILLA = 'VILLA',
 	HOUSE = 'HOUSE',
 }
-registerEnumType(PropertyType, {
+registerEnumType(PropertyType, {    //registerEnumType() TypeScript enum’ni GraphQL tushunishi uchun  majbur.
 	name: 'PropertyType',
 });
 
