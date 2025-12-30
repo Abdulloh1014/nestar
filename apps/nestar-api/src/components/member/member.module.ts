@@ -5,9 +5,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import MemberSchema from '../../schemas/Member.model';
 
 @Module({
-  imports:[
+  imports:[    //forFeature — kerakli model yoki funksiyani faqat shu modul ichida ishlashi uchun ulab beradi.
     MongooseModule.forFeature([{name: "Member", schema: MemberSchema}])
   ],
   providers: [MemberResolver, MemberService]
 })
 export class MemberModule {}
+
+
+// 👉 forRoot — butun ilova uchun
+// 👉 forFeature — bitta modul uchun

@@ -9,7 +9,7 @@ import {
 
 @ObjectType()
 export class Member {
-  @Field(() => String)
+  @Field(() => String)     //@Field — property’ni GraphQL maydoniga aylantiradi.
   _id: ObjectId;
 
   @Field(() => MemberType)
@@ -29,7 +29,7 @@ export class Member {
 
   memberPassword?: string;
 
-  @Field(() => String, {nullable: true})
+  @Field(() => String, {nullable: true})   //👉 bu field bo‘sh (null) bo‘lishi mumkin degani.
   memberFullName?: string;
 
   @Field(() => String)

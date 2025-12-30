@@ -15,7 +15,7 @@ export class MemberInput {
     @Length(5, 12)
     @Field(() => String)
     memberPassword: string;
-
+                           //@Field — property’ni GraphQL maydoniga aylantiradi.
     @IsNotEmpty()
     @Field(() => String)
     memberPhone: string;

@@ -9,10 +9,14 @@ import { Message } from '../../libs/enums/common.enum';
 @Injectable()
 export class MemberService {
 
+    //  @InjectModel vazifasi —
+    //👉 MongoDB modelini service (yoki provider) ichiga avtomatik kiritib berish.
+    // Model — ish qiladigan narsa, Promise esa o‘sha ishning natijasini kutish uchun.
     constructor(@InjectModel('Member') private readonly memberModel: Model<Member>) {}
+
+    
      public async signup(input: MemberInput): Promise<Member> {
         // Hash Password
-
         try{
             const result = await this.memberModel.create(input);
             // Authentication via Token

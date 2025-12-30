@@ -10,9 +10,9 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    GraphQLModule.forRoot({
-      driver: ApolloDriver,
+    ConfigModule.forRoot(),     // .env ni o‘qib, konfiguratsiyani global qiladi
+    GraphQLModule.forRoot({     // GraphQL serverni ishga tushiradi
+      driver: ApolloDriver,      // Apollo GraphQL engine ishlatiladi
       playground: true,
       uploads: false,
       autoSchemaFile: true,
