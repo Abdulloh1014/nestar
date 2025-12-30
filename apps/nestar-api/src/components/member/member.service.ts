@@ -42,7 +42,7 @@ export class MemberService {
         }
             
         // Compare Password
-         console.log('response:', response)
+        //  console.log('response:', response)
         const isMatch = memberPassword === response.memberPassword;
         if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD)
         return response;
