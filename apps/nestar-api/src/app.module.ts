@@ -13,11 +13,11 @@ import { T } from './libs/types/common';
   imports: [
     ConfigModule.forRoot(),     // .env ni o‘qib, konfiguratsiyani global qiladi
     GraphQLModule.forRoot({     // GraphQL serverni ishga tushiradi
-      driver: ApolloDriver,      // Apollo GraphQL engine ishlatiladi
-      playground: true,
-      uploads: false,
-      autoSchemaFile: true,
-      formatError: (error: T) => {
+      driver: ApolloDriver,     // Apollo GraphQL engine ishlatiladi
+      playground: true,         // brauzerda GraphQL test oynasini yoqadi.
+      uploads: false,           // fayl upload’ni o‘chiradi.
+      autoSchemaFile: true,     // GraphQL schema’ni avtomatik generatsiya qiladi.
+      formatError: (error: T) => {      // formatError xatoni custom tarzda qayta ishlash funksiyasi.
         const graphQLFormattedError = {
           code: error?.extensions.code,
           message: 
