@@ -8,6 +8,7 @@ export const AuthMember = createParamDecorator((data: string, context: Execution
 			request.body.authMember.authorization = request.headers?.authorization;
 		}
 	} else request = context.switchToHttp().getRequest();
+	// console.log("requsest:", request)
 
 	const member = request.body.authMember;
 

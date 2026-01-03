@@ -7,7 +7,9 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports:[    //forFeature — kerakli model yoki funksiyani faqat shu modul ichida ishlashi uchun ulab beradi.
-    MongooseModule.forFeature([{name: "Member", schema: MemberSchema}]), AuthModule],
+    MongooseModule.forFeature([{name: "Member", schema: MemberSchema}]), 
+    AuthModule
+  ],
   providers: [MemberResolver, MemberService]
 })
 export class MemberModule {}
