@@ -22,8 +22,8 @@ export enum Message {
 }
 
 export enum Direction {
-  ASC = 1,
-  DESC = -1,
+  ASC = 1,      // kichiklarini birinchi olib beradi
+  DESC = -1,    // KATTAlarini birinchi olib beradi
 }
 
 registerEnumType(Direction , {

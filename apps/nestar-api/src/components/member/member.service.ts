@@ -63,7 +63,7 @@ export class MemberService {
         return response;
     }
 
-     public async updataMember(memberid: ObjectId, input: MemberUpdate): Promise<Member> {
+     public async updateMember(memberid: ObjectId, input: MemberUpdate): Promise<Member> {
         const result: Member = await this.memberModel.findOneAndUpdate(
             {
               _id: memberid,
@@ -114,6 +114,9 @@ export class MemberService {
         const sort: T = {[input?.sort ?? "createdAt"]: input?.direction ?? Direction.DESC};
 
         if(text) match.memberNick = { $regex: new RegExp(text, 'i') };
+        // regex — db memberNick maydonidan mos keladigan nameni qidiradi. So‘zning bir qismi mos kelsa ham topadi
+        // text bu input req ichida kelyatgan name 
+        // 'i' bu katta kichik harfni farqlamaslik uchun
         console.log("match:", match);
 
         const result = await this.memberModel.aggregate([
@@ -127,7 +130,7 @@ export class MemberService {
             },
         ]). exec();
         if(!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
-
+       
        return result[0];
    }
 

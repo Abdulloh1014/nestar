@@ -57,7 +57,7 @@ export class AgentsInquiry {
     @IsNotEmpty()
     @Min(1)
     @Field(() => Int)
-    page: number;
+    page: number;    
 
     @IsNotEmpty()
     @Min(1)
@@ -77,8 +77,8 @@ export class AgentsInquiry {
     @Field(() => AISearch)
     search: AISearch;
 
-
 }
+
 
 
 @InputType()
@@ -111,7 +111,7 @@ export class MembersInquiry {
     limit: number;
 
     @IsOptional()
-    @IsIn(availableMembersStors)
+    @IsIn(availableMembersStors)   // @IsIn bu propertida ichida berilgan qiymatlarni qabul qiladi
     @Field(() => String, { nullable: true })
     sort?: string;
 
