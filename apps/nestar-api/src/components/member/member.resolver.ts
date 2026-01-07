@@ -102,7 +102,7 @@ export class MemberResolver {
     }
 
 
-    /** Uloader */
+    /** Uploader */
 
     @UseGuards(AuthGuard)
 @Mutation((returns) => String)
