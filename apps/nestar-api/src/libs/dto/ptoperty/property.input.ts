@@ -12,10 +12,10 @@ export class PropertyInput {
     propertyType: PropertyType;
 
     @IsNotEmpty()
-@IsInt()
-@Min(0)
-@Field(() => Int)
-propertyPrice: number;
+    @IsInt()
+    @Min(0)
+    @Field(() => Int)
+    propertyPrice: number;
 
     @IsNotEmpty()
     @Field(() => PropertyLocation)

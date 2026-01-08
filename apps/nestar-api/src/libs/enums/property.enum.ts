@@ -10,7 +10,6 @@ registerEnumType(PropertyType, {    //registerEnumType() TypeScript enum’ni Gr
 });
 
 export enum PropertyStatus {
-	HOLD = 'HOLD',
 	ACTIVE = 'ACTIVE',
 	SOLD = 'SOLD',
 	DELETE = 'DELETE',

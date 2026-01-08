@@ -140,19 +140,25 @@ files: Promise<FileUpload>[],
 @Args('target') target: String,
 ): Promise<string[]> {
 	console.log('Mutation: imagesUploader');
-
+// Natija massivi (index bo'yicha yo'llar saqlanadi)
 	const uploadedImages = [];
+    // Har bir fayl uchun async funksiya yaratamiz
 	const promisedList = files.map(async (img: Promise<FileUpload>, index: number): Promise<Promise<void>> => {
 		try {
 			const { filename, mimetype, encoding, createReadStream } = await img;
 
+         // MIME type tekshirish (faqat ruxsat etilgan formatlar)
 			const validMime = validMimeTypes.includes(mimetype);
 			if (!validMime) throw new Error(Message.PROVIDE_ALLOWED_FORMAT);
-
+            
+            // Yangi unikal fayl nomi yaratish
 			const imageName = getSerialForImage(filename);
+            // Saqlash yo'li
 			const url = `uploads/${target}/${imageName}`;
+            // Fayl oqimi
 			const stream = createReadStream();
 
+            // Faylni diskka yozish (pipe orqali)
 			const result = await new Promise((resolve, reject) => {
 				stream
 					.pipe(createWriteStream(url))
