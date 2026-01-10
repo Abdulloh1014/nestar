@@ -69,7 +69,8 @@ export class MemberService {
               _id: memberid,
               memberStatus: MemberStatus.ACTIVE,
             },
-            input, {new: true},
+            input,
+             {new: true},
         )
         .exec(); 
         if(!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);

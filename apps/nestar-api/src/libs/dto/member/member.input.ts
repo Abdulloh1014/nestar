@@ -70,6 +70,7 @@ export class AgentsInquiry {
     sort?: string;
 
     @IsOptional()
+    @IsIn(availableAgentStors)     // shu jjoyi ortiqcha bo'lishi xam mumkun
     @Field(() => Direction, { nullable: true })
     direction?: Direction;
 
