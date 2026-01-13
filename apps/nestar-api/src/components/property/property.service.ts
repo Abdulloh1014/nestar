@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { AgentPropertiesInquiry, AllPropertiesIquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/ptoperty/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/ptoperty/property.input';
 import { Properties, Property } from '../../libs/dto/ptoperty/property';
 import { MemberService } from '../member/member.service';
 import { ViewService } from '../view/view.service';
@@ -33,8 +33,8 @@ export class PropertyService {
         targetKey: 'memberProperties',
         modifier: 1,
       })
+      return result;
 
-     return result;
      } catch (err) {
     console.log('Error, Service.model:', err.message);
        throw new BadRequestException(Message.CREATE_FAILED);
@@ -44,15 +44,19 @@ export class PropertyService {
 
    public async getProperty(memberId: ObjectId, propertyId: ObjectId): Promise<Property> {
     const search: T = {
-      _id: propertyId,
-      propertyStatus: PropertyStatus.ACTIVE,
+      _id: propertyId,    // biz ko'rmoqschi bo‘lgan propertyId
+      propertyStatus: PropertyStatus.ACTIVE, // faqat ACTIVE holatdagi propertylarni ko‘rsatilishi kerak
     };
 
     const targetProperty: Property = await this.propertyModel.findOne(search).lean().exec();
+    // lean() → Mongoose hujjatini oddiy JS object qilib beradi. Bu o‘qish tezligini oshiradi va xotira sarfini kamaytiradi.
     if(!targetProperty) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
  
     if(memberId) {
-      const viewInput = { memberId: memberId, viewRefId: propertyId, viewGroup: ViewGroup.PROPERTY};
+      const viewInput = { 
+        memberId: memberId,               // kim ko‘rdi
+        viewRefId: propertyId,            // qaysi property ko‘rildi
+        viewGroup: ViewGroup.PROPERTY};   // qaysi tur (PROPERTY)
       const newView = await this.viewService.recordView(viewInput);
       if(newView) {
         await this.propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1});
@@ -84,13 +88,16 @@ export class PropertyService {
    public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
     let { propertyStatus, soldAt, deletedAt } = input;
     const search: T = {
-      _id: input._id,
-      memberId: memberId,
-      propertyStatus: PropertyStatus.ACTIVE,
+      _id: input._id,       // yangilamoqchi bo‘lgan propertyId
+      memberId: memberId,   // kirib kelyotgan agent o‘zining propertysini yangilashi mumkin
+      propertyStatus: PropertyStatus.ACTIVE,   // faqat ACTIVE holatdagi propertylarni yangilashi mumkin
     };
 
     if (propertyStatus === PropertyStatus.SOLD ) soldAt = moment().toDate();
+    // agar propertyStatus SOLD ga o‘zgartirilsa, soldAt maydonini hozirgi sana bilan to‘ldirish
+    
     else if ( propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
+    // agar propertyStatus DELETE ga o‘zgartirilsa, deletedAt maydonini hozirgi sana bilan to‘ldirish
 
     const result = await this.propertyModel
     .findByIdAndUpdate(search, input, {
@@ -126,7 +133,7 @@ export class PropertyService {
           $facet: {
             list: [
               { $skip: (input.page - 1) * input.limit },
-              { $limit: input.limit },
+              { $limit: input.limit },   //pajination
               // meLiked
               lookupMember,
               { $unwind: '$memberData' },
@@ -205,7 +212,7 @@ public async getAgentProperties(memberId: ObjectId, input: AgentPropertiesInquir
 
 }
 
-public async getAllPropertiesByAdmin(input: AllPropertiesIquiry): Promise<Properties> {
+public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Properties> {
   const { propertyStatus, propertyLocationList } = input.search;
   const match: T = {};
   const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC};

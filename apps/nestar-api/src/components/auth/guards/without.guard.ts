@@ -18,9 +18,9 @@ export class WithoutGuard implements CanActivate {
 						authMember = await this.authService.verifyToken(token);
 					request.body.authMember = authMember;
 				} catch (err) {
-					request.body.authMember = null;
+					request.body.authMember = null;  // token bor, lekin xato
 				}
-			} else request.body.authMember = null;
+			} else request.body.authMember = null;   // token umuman yo‘q
 
 			console.log('memberNick[without] =>', request.body.authMember?.memberNick ?? 'none');
 			return true;

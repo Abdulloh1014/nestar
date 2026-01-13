@@ -11,6 +11,8 @@ export class RolesGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext | any): Promise<boolean> {
+
+		//Guard qaysi rollarga ruxsat berilganini shu joyda bilib oladi.
 		const roles = this.reflector.get<string[]>('roles', context.getHandler());
 		if (!roles) return true;
 
@@ -25,8 +27,19 @@ export class RolesGuard implements CanActivate {
 			const token = bearerToken.split(' ')[1],
 			
 				authMember = await this.authService.verifyToken(token),
+
 				
+                // roles array ichida authMember.memberType mavjudmi yoki yo‘qmi tekshiradi.
+                // Agar topsa (index > -1 bo‘lsa) true, topmasa false qaytaradi.
+
+				// hasRole() — rolni tekshiradi,              (index > -1 bo‘lsa)
 				hasRole = () => roles.indexOf(authMember.memberType) > -1,
+
+				// hasPermission — boolean o‘zgaruvchi.
+                // Boshlang‘ich qiymati sifatida hasRole() funksiyasini chaqiradi.
+                // Ya’ni foydalanuvchining roli mos kelsa true, aks holda false bo‘ladi.
+
+				//hasPermission — shu tekshiruv natijasini saqlaydi.
 				hasPermission: boolean = hasRole();
             
 			if (!authMember || !hasPermission) throw new ForbiddenException(Message.ONLY_SPECIFIC_ROLES_ALLOWED);

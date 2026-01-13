@@ -9,9 +9,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new LoggingInterceptor());
-  app.enableCors({origin: true, credentials: true });
 
+  // Frontend’dan keladigan so‘rovlarga (CORS) ruxsat berish uchun
+  app.enableCors({origin: true, credentials: true });
+  
   app.use(graphqlUploadExpress({ maxFileSize: 15000000, maxFiles: 10}));
+  
+  // static fayllar uchun papka yo'li
   app.use( "/uploads", express.static('./uploads'));
 
   await app.listen(process.env.PORT_API ?? 3000);

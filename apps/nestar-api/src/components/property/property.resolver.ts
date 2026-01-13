@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { PropertyService } from './property.service';
 import { Properties, Property } from '../../libs/dto/ptoperty/property';
-import { AgentPropertiesInquiry, AllPropertiesIquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/ptoperty/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/ptoperty/property.input';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UseGuards } from '@nestjs/common';
 import { MemberType } from '../../libs/enums/member.enum';
@@ -19,7 +19,8 @@ export class PropertyResolver {
         @Roles(MemberType.AGENT)
         @UseGuards(RolesGuard)
         @Mutation(() => Property)
-        public async createProperty(@Args('input') input: PropertyInput, 
+        public async createProperty(
+        @Args('input') input: PropertyInput, 
         @AuthMember('_id') memberId: ObjectId): Promise<Property> {
             console.log("Mutation: createProperty");
             input.memberId = memberId;
@@ -81,7 +82,7 @@ export class PropertyResolver {
       @UseGuards(RolesGuard)
       @Query((returns) => Properties)
       public async getAllPropertiesByAdmin(
-        @Args('input') input: AllPropertiesIquiry,
+        @Args('input') input: AllPropertiesInquiry,
         @AuthMember('_id') memberId: ObjectId,
       ): Promise<Properties> {
         console.log("Query: getAllPropertiesByAdmin")

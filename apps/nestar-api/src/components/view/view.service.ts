@@ -9,7 +9,7 @@ import { T } from '../../libs/types/common';
 export class ViewService {
     constructor(@InjectModel('View') private readonly viewModel: Model<View>) {}
 
-    public async recordView(input: ViewInput): Promise<View | null> {
+    public async  recordView(input: ViewInput): Promise<View | null> {
          const viewExist = await this.checkViewExistence(input);
          if (!viewExist) {
             console.log('- New View Insert -');
