@@ -11,8 +11,10 @@ import { ViewService } from '../view/view.service';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
 
+
 @Injectable()
 export class MemberService {
+    commentModel: any;
 
     //  @InjectModel vazifasi —
     //👉 MongoDB modelini service (yoki provider) ichiga avtomatik kiritib berish.
@@ -180,5 +182,9 @@ export class MemberService {
         {new: true} )
         .exec();
     }
+
+
+   
+
 
 }
