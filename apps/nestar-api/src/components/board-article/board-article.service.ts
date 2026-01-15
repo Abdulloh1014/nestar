@@ -12,6 +12,9 @@ import { StatisticModifier, T } from '../../libs/types/common';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
 import { Int } from '@nestjs/graphql';
 import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { LikeInput } from '../../libs/dto/like/like.input';
+import { LikeGroup } from '../../libs/enums/like.enum';
+import { LikeService } from '../like/like.service';
 
 
 @Injectable()
@@ -20,6 +23,7 @@ export class BoardArticleService {
         @InjectModel('BoardArticle') private readonly boardArticleModel: Model<BoardArticle>,
         private readonly memberService: MemberService,
         private readonly viewService: ViewService,
+        private readonly likeService: LikeService,
     ) {}
 
 
@@ -130,6 +134,30 @@ export class BoardArticleService {
         
         return result[0];
        }
+
+
+
+       
+          public async likeTargetBoardArticle(memberId: ObjectId, likeRefId: ObjectId): Promise<BoardArticle> {
+           const target: BoardArticle = await this.boardArticleModel
+           .findOne({ _id: likeRefId, articleStatus: BoardArticleStatus.ACTIVE })
+           .exec();
+           if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+       
+           const input: LikeInput = {
+               memberId: memberId,
+               likeRefId: likeRefId,
+               likeGroup: LikeGroup.ARTICLE,
+           };
+       
+       
+           // LIKE TOGGLE via Like Modules
+           const modifier : number = await this.likeService.toggleLike(input);
+           const result = await this.boardArticleStatsEditor({ _id: likeRefId, targetKey: 'articleLikes', modifier: modifier });
+           if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG)
+               return result;
+           
+          }
 
 
        /** ADMIN **/

@@ -8,7 +8,7 @@ import { Member } from '../../libs/dto/member/member';
 import { MemberModule } from '../member/member.module';
 import { View } from '../../libs/dto/view/view';
 import { ViewModule } from '../view/view.module';
-
+import { LikeModule } from '../like/like.module';
 @Module({
     imports: [
         MongooseModule.forFeature([
@@ -20,6 +20,7 @@ import { ViewModule } from '../view/view.module';
     AuthModule,
     MemberModule,
     ViewModule,
+    LikeModule,
     ],
   providers: [BoardArticleResolver, BoardArticleService],
   exports: [BoardArticleService],
