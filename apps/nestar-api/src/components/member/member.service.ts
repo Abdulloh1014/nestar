@@ -107,6 +107,8 @@ export class MemberService {
             }
 
             // meLiked
+            const likeInput = {memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER};
+            targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput);
             // meFollwed
         }
             
@@ -153,8 +155,6 @@ export class MemberService {
         likeGroup: LikeGroup.MEMBER,
     };
 
-
-    // LIKE TOGGLE via Like Modules
     const modifier : number = await this.likeService.toggleLike(input);
     const result = await this.memberStatsEditor({ _id: likeRefId, targetKey: 'memberLikes', modifier: modifier });
     if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG)
