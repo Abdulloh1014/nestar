@@ -131,5 +131,14 @@ export const lookupFollowerData = {
 	},
 };
 
+export const lookupFavorite = {
+	$lookup: {
+		from: 'members',           
+		localField: 'favoriteProperty.memberId',	
+		foreignField: '_id',       
+		as: 'favoriteProperty.memberData',          
+	},
+};
+
 
 
