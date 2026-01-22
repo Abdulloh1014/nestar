@@ -45,12 +45,12 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
 			pipeline: [
 				{
 					$match: {
-						$expr: {
+						$expr: {       // eq: tenglik operatori. U qiymat tengligini tekshiradi.
 							$and: [{ $eq: ['$likeRefId', '$$localLikeRefId']}, { $eq: ['$memberId', '$$localMemberId'] }],
-						},
+						},   // $and bilan ikkita shart birga ishlaydi
 					},
 				},
-				{
+				{  // $project =>> Hujjatdan kerakli maydonlarni tanlash
 					$project: {
 						_id: 0,
 						memberId: 1,
@@ -59,7 +59,7 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
 					},
 				},
 			],
-			as: 'meLiked',
+			as: 'meLiked',  // shu nom blan saqlash
 		},
 	};
 };
@@ -86,7 +86,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
 						},
 					},
 				},
-				{
+				{   // $project → qaysi data kelsin, qaysi biri kelmasin ni belgilaydi.
 					$project: {
 						_id: 0,
 						followerId: 1,
@@ -143,7 +143,7 @@ export const lookupFavorite = {
 export const lookupVisit = {
 	$lookup: {
 		from: 'members',           
-		localField: 'visitedProperty.memberId',	
+		localField: 'visitedProperty.memberId',	// property egasini Id si
 		foreignField: '_id',       
 		as: 'visitedProperty.memberData',          
 	},

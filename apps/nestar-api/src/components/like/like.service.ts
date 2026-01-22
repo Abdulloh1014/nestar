@@ -54,7 +54,7 @@ export class LikeService {
                     localField: 'likeRefId',
                     foreignField: '_id',
                     as: 'favoriteProperty',
-                },
+                },      // Bu orqali like qilingan property ni olib kelayapsiz.
             },
             { $unwind: '$favoriteProperty'},
             {
@@ -64,7 +64,7 @@ export class LikeService {
                         {$limit: limit},
                         lookupFavorite,
                         { $unwind: '$favoriteProperty.memberData'},
-                    ],
+                    ],             // $ belgisi MongoDB aggregation ichida field referensiyasini bildiradi:
                     metaCounter: [{ $count: 'total' }],
                 },
             },
@@ -72,7 +72,17 @@ export class LikeService {
         .exec();
 
         const result: Properties = {list: [], metaCounter: data[0].metaCounter};
+        //Ya’ni pipeline natijasini ishlatishga qulay formatga keltirad
+
+
         result.list = data[0].list.map((ele) => ele.favoriteProperty);
+        //Bu kod aggregation natijasidan haqiqiy property obyektlarini ajratib oladi.
+        //data[0].list → $facet ichidagi list
+        //.map((ele) => ele.favoriteProperty) → har bir elementdan favoriteProperty ni oladi
+        //Endi result.list faqat property obyektlaridan iborat bo‘ladi.
+
+
+
 
         return result;
 

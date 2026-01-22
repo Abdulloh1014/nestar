@@ -68,6 +68,9 @@ export class FollowService {
         const match: T = { followerId: search?.followerId };
         console.log('match:', match);
 
+       
+        //  followerId — har doim bosgan tomonni bildiradi.
+
         const result = await this.followModel.aggregate([
             { $match: match },
             { $sort: { createdAt: Direction.DESC }},

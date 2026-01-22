@@ -128,6 +128,7 @@ export class PropertyService {
             list: [
               { $skip: (input.page - 1) * input.limit },
               { $limit: input.limit },   //pajination
+              // meLiked
               lookupAuthMemberLiked(memberId),
               lookupMember,
               { $unwind: '$memberData' },
