@@ -31,9 +31,9 @@ import { SocketModule } from './socket/socket.module';
         return graphQLFormattedError;
       },
     }),
-    ComponentsModule,
-    DatabaseModule,
-    SocketModule,
+    ComponentsModule, //HTTP
+    DatabaseModule,  //TCP
+    SocketModule,     //TCP
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver], 

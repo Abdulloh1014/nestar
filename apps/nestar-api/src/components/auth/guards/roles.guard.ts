@@ -35,7 +35,6 @@ export class RolesGuard implements CanActivate {
 				// hasRole() — rolni tekshiradi,              (index > -1 bo‘lsa)
 				hasRole = () => roles.indexOf(authMember.memberType) > -1,
 
-				// hasPermission — boolean o‘zgaruvchi.
                 // Boshlang‘ich qiymati sifatida hasRole() funksiyasini chaqiradi.
                 // Ya’ni foydalanuvchining roli mos kelsa true, aks holda false bo‘ladi.
 

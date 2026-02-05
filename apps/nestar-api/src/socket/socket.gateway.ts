@@ -22,7 +22,7 @@ export class SocketGateway implements OnGatewayInit {
   }
 
   @SubscribeMessage('message')
-  public handleMessage(client: any, payload: any): string {
+  public handleMessage(client: WebSocket, payload: any): string {
     return 'Hello world!';
   }
 }
