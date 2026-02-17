@@ -60,7 +60,7 @@ private async retrieveAuth(req: any): Promise<Member> {
       action: 'joined'
     };
     this.emitMessage(infoMsg);
-    client.send(JSON.stringify({ event: 'getMessage', list: this.messagesList }));
+    client.send(JSON.stringify({ event: 'getMessages', list: this.messagesList }));
   }
 
 
